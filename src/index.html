@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Analyser</title>
+    <link href="./output.css" rel="stylesheet">
+</head>
+<body>
+    <div class="wrapper w-screen">
+
+        <div class="home w-[99vw]  h-screen  bg-gray-200" id="homePage">
+            <div class="navbar flex justify-between bg-slate-100 h-14 text-slate-900  text-xl p-2 items-center">
+                <span class=" font-semibold">Profile Analyser</span>
+                <div class="links flex  mr-2">
+                    <a href="">Github</a>
+                </div>
+            </div>
+            <div class="formContent flex justify-center w-[99vw] items-center">
+                <div id="userForm" class="p-5 py-10 mt-16 rounded-lg ">
+                    <form class="flex flex-col">
+                        <div class="form-group flex-col sm:flex-row">
+                            <label for="CFuserName">CodeForces:</label>
+                            <input type="text" id="CFuserName" name="CFuserName" placeholder="Enter handle">
+                        </div>
+                        <div class="form-group flex-col sm:flex-row">
+                            <label for="LCuserName">LeetCode:</label>
+                            <input type="text" id="LCuserName" name="LCuserName" placeholder="Enter handle">
+                        </div>
+                        <!-- <div class="form-group flex-col sm:flex-row">
+                            <label for="CCuserName">CodeChef:</label>
+                            <input type="text" id="CCuserName" name="CCuserName" placeholder="Enter handle">
+                        </div> -->
+                        <div class="form-group flex-col sm:flex-row">    
+                            <label for="gfguserName">Geeks for Geeks:</label>
+                            <input type="text" id="gfguserName" name="gfguserName" placeholder="Enter handle">
+                        </div>
+                        <button type="submit">Get Data</button>
+                    </form>
+                    <div id="loadingScreen" class="loading-screen">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+        <div class=" justify-center items-center  w-[99vw]  bg-gray-100 hidden" id="dataPage">
+
+            <div class="dataContent sm:p-10 mt-16 rounded-lg bg-white shadow-md  sm:w-[80%] w-[99vw] sm:m-4 py-4">
+                <div class="flex justify-between items-center p-2 ">
+                    <span class="font-semibold text-lg">Profile</span>
+                    <button id="return" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded max-w-48" onclick="returnHome()">Return</button>
+                </div>
+
+                <div class="profileData flex w-full p-2 flex-wrap justify-around items-center">
+                    <div class="bg-gray-900 rounded-lg p-4 text-white font-sans m-4  sm:w-[60%] w-[99%] " id="Overall">
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <span class="font-sans text-4xl font-bold">Overall</span>
+                                </div>
+                                <!-- <div class="text-right">
+                                    <h2 class="text-4xl font-bold">1,584</h2>
+                                    <p class="text-xs text-gray-400">Contest Rating</p>
+                                    
+                                        <span class="text-gray-500">/557,020</span>
+                                    
+                                    <p class="text-xs text-gray-400">Global Ranking</p>
+                                </div> -->
+                            </div>
+                            <!-- <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span>Attended</span>
+                                <span>4</span>
+                            </div> -->
+                            <div class="h-1 bg-gray-700 rounded-full">
+                                <div class="h-full bg-yellow-500 rounded-full" ></div>
+                            </div>
+                        </div>
+                      
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="w-28 h-28 relative">
+                                <canvas id="ovChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <p class="text-2xl font-bold" id="totalQ">214</p>
+                                <!-- <p class="text-xs text-gray-400">/3204</p> -->
+                                <p class="text-xs text-green-500">Solved</p>
+                                </div>
+                            </div>
+                          
+                            <div class="text-sm">
+                            
+                                <div class="mb-2">
+                                <span class="text-cyan-400 font-medium" >CodeForces</span>
+                                <span class="ml-2" id="cfTotal">70</span>
+                                </div>
+                                
+                                <div class="mb-2">
+                                <span class="text-orange-400 font-medium">Leetcode</span>
+                                <span class="ml-2"  id="lcTotal">122</span>
+                                </div>
+                                
+                                <div>
+                                <span class="text-red-400 font-medium" >Geeks for geeks</span>
+                                <span class="ml-2"  id="gfgTotal">22</span>
+                                </div>
+
+                            </div>
+                        </div>
+                      
+                    </div>                    
+                    
+                    <!-- <div class="bg-gray-900 rounded-lg p-4 text-white font-sans m-4  sm:w-[45%] w-[99%]">
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h2 class="text-4xl font-bold">1,584</h2>
+                                    <p class="text-xs text-gray-400">Contest Rating</p>
+                                </div>
+                                <div class="text-right">
+                                     <p class="text-sm">
+                                        <span class="text-gray-400">134,816</span>
+                                        <span class="text-gray-500">/557,020</span>
+                                    </p>
+                                    <p class="text-xs text-gray-400">Global Ranking</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <span>Attended</span>
+                                <span>4</span>
+                            </div>
+                            <div class="h-1 bg-gray-700 rounded-full">
+                                <div class="h-full bg-yellow-500 rounded-full" ></div>
+                            </div>
+                        </div>
+                      
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="w-28 h-28 relative">
+                                <canvas id="cc  Chart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <p class="text-2xl font-bold">214</p>
+                                <p class="text-xs text-gray-400">/3204</p> 
+                                <p class="text-xs text-green-500">Solved</p>
+                                </div>
+                            </div>
+                          
+                            <div class="text-sm">
+                            
+                                <div class="mb-2">
+                                <span class="text-cyan-400 font-medium">Easy</span>
+                                <span class="ml-2">70</span>
+                                </div>
+                                
+                                <div class="mb-2">
+                                <span class="text-orange-400 font-medium">Med.</span>
+                                <span class="ml-2">122</span>
+                                </div>
+                                
+                                <div>
+                                <span class="text-red-400 font-medium">Hard</span>
+                                <span class="ml-2">22</span>
+                                </div>
+
+                            </div>
+                        </div>
+                      
+                    </div> -->
+
+                    <div class="bg-gray-900 rounded-lg p-4 text-white font-sans m-4 sm:w-[60%] w-[99%] dataPage hidden" id="CodeForces">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="text-4xl font-bold">CodeForces</h2>
+                                <p class="text-xl" id="cfRank">Expert</p>
+                            </div>
+                            <div class="text-right">
+                                <h2 class="text-4xl font-bold" id="cfRating">1,584</h2>
+                                <p class="text-sm">Max: <span id="cfMaxRating">1,650</span></p>
+                                <p class="text-sm text-green-500" id="cfRatingChange">+15</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm font-bold">Contests Participated : <span id="cfContests">4</span></p>
+                                <p class="text-sm">Contribution: <span id="cfContribution">15</span></p>
+                            </div>
+                            <div>
+                                <!-- <p class="text-sm">Global Rank: <span id="cfGlobalRank">134,816</span></p> -->
+                                <!-- <p class="text-sm">Country Rank: <span id="cfCountryRank">1,234</span></p> -->
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Problem Solving</h3>
+                            <div class="flex justify-between items-center">
+                                <div class="w-28 h-28 relative">
+                                    <canvas id="cfChart"></canvas>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <p class="text-2xl font-bold">214</p>
+                                        <p class="text-xs text-green-500">Solved</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm">
+                                    <div class="mb-2">
+                                        <span class="text-cyan-400 font-medium">Easy</span>
+                                        <span class="ml-2" id="cf">70</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="text-orange-400 font-medium">Med.</span>
+                                        <span class="ml-2">122</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-red-400 font-medium">Hard</span>
+                                        <span class="ml-2">22</span>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Top Tags</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-500 px-2 py-1 rounded text-xs">DP (45)</span>
+                                <span class="bg-green-500 px-2 py-1 rounded text-xs">Graphs (38)</span>
+                                <span class="bg-yellow-500 px-2 py-1 rounded text-xs">Math (30)</span>
+                               
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">Recent Contests</h3>
+                            <div class="text-sm">
+                                <p>Contest 123: Rank 456 (Rating Change: +15)</p>
+                                <p>Contest 122: Rank 789 (Rating Change: -5)</p>
+                            
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-xs text-gray-400">
+                            <p>Friend of: <span id="cfFriends">25</span> users</p>
+                            <p>Last online: <span id="cfLastOnline">2 hours ago</span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-lg p-4 text-white font-sans m-4 sm:w-[60%] w-[99%] dataPage hidden" id="LeetCode">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="text-4xl font-bold">LeetCode</h2>
+                                <p class="text-xl" id="lcUsername">username</p>
+                            </div>
+                       
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm">Total Solved: <span id="lcTotalSolved">0</span> / <span id="lcTotalQuestions">0</span></p>
+                                <p class="text-sm">Acceptance Rate: <span id="lcAcceptanceRate">0%</span></p>
+                            </div>
+                            <div>
+                                <p class="text-sm">Contribution Points: <span id="lcContributionPoints">0</span></p>
+                                <p class="text-sm">Reputation: <span id="lcReputation">0</span></p>
+                            </div>
+                        </div>
+                    
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold mb-2">Problem Solving</h3>
+                            <div class="flex justify-between items-center">
+                                <div class="w-28 h-28 relative">
+                                    <canvas id="lcChart"></canvas>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <p class="text-2xl font-bold" id="lcSolved">0</p>
+                                        <p class="text-xs text-green-500">Solved</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm">
+                                    <div class="mb-2">
+                                        <span class="text-cyan-400 font-medium">Easy</span>
+                                        <span class="ml-2" id="lcE">0</span>
+                                        <span class="ml-2 text-xs" id="lcEasyPercentage">0%</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <span class="text-yellow-400 font-medium">Medium</span>
+                                        <span class="ml-2" id="lcM">0</span>
+                                        <span class="ml-2 text-xs" id="lcMediumPercentage">0%</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-red-400 font-medium">Hard</span>
+                                        <span class="ml-2" id="lcH">0</span>
+                                        <span class="ml-2 text-xs" id="lcHardPercentage">0%</span>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>      
+
+                    <div class="bg-gray-900 rounded-lg p-4 text-white font-sans m-4  sm:w-[60%] w-[99%] dataPage hidden" id="geeksforgeeks">
+                        
+                        <div class="mb-4">
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h2 class="text-4xl font-bold">Geeks for Geeks</h2>
+                                    <!-- <p class="text-xs text-gray-400">Contest Rating</p> -->
+                                </div>
+                                <div class="text-right">
+                                    <!-- <h2 class="text-4xl font-bold" id="Rating">1,584</h2>
+                                    <p class="text-xs text-gray-400" id="cfRank">Contest Rating</p> -->
+                                    <!-- <p class="text-sm">
+                                        <span class="text-gray-400">134,816</span>
+                                        <span class="text-gray-500">/557,020</span>
+                                    </p>
+                                    <p class="text-xs text-gray-400">Global Ranking</p> -->
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400 mb-1">
+                                <!-- <span>Attended</span>
+                                <span id="cfcontests">4</span> -->
+                            </div>
+                            <div class="h-1 bg-gray-700 rounded-full">
+                                <div class="h-full bg-yellow-500 rounded-full" ></div>
+                            </div>
+                        </div>
+                      
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="w-28 h-28 relative">
+                                <canvas id="gfgChart"></canvas>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <p class="text-2xl font-bold" id="gfgT">214</p>
+                                <!-- <p class="text-xs text-gray-400">/3204</p> -->
+                                <p class="text-xs text-green-500">Solved</p>
+                                </div>
+                            </div>
+                          
+                            <div class="text-sm">
+                            
+                                <div class="mb-2">
+                                <span class="text-cyan-400 font-medium">Easy</span>
+                                <span class="ml-2" id="gfgE">70</span>
+                                </div>
+                                
+                                <div class="mb-2" >
+                                <span class="text-orange-400 font-medium">Med.</span>
+                                <span class="ml-2" id="gfgM">122</span>
+                                </div>
+                                
+                                <div>
+                                <span class="text-red-400 font-medium">Hard</span>
+                                <span class="ml-2" id="gfgH">22</span>
+                                </div>
+
+                            </div>
+                        </div>
+                      
+                    </div>      
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>

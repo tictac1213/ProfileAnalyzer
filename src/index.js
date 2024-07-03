@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         console.log('Form submitted');
-
+        lc = 0;
+        gfg = 0;
+        cf = 0;
         const cfUsername = document.getElementById('CFuserName').value.trim();
         const lcUsername = document.getElementById('LCuserName').value.trim();
         // const ccUsername = document.getElementById('CCuserName').value.trim();
@@ -273,27 +275,29 @@ async function fetchCodeForcesData(handle) {
             document.querySelector('.text-cyan-400 + span').textContent = difficulty.easy;
             document.querySelector('.text-orange-400 + span').textContent = difficulty.medium;
             document.querySelector('.text-red-400 + span').textContent = difficulty.hard;
-
+            
             const topTagsContainer = document.querySelector('div.flex.flex-wrap.gap-2');
             topTagsContainer.innerHTML = '';
             Object.entries(tags)
             .sort((a, b) => b[1] - a[1])
-                .slice(0, 5)
-                .forEach(([tag, count]) => {
+            .slice(0, 5)
+            .forEach(([tag, count]) => {
                     topTagsContainer.innerHTML += `<span class="bg-blue-500 px-2 py-1 rounded text-xs">${tag} (${count})</span>`;
                 });
-
-            const recentContestsContainer = document.querySelector('h3.text-lg.font-semibold.mb-2 + div.text-sm');
-            recentContestsContainer.innerHTML = '';
-            contests.slice(-3).reverse().forEach(contest => {
-                recentContestsContainer.innerHTML += `<p>Contest ${contest.contestId}: Rank ${contest.rank} (Rating Change: ${contest.newRating - contest.oldRating})</p>`;
-            });
-            
-            document.getElementById('cfFriends').textContent = user.friendOfCount;
-            document.getElementById('cfLastOnline').textContent = new Date(user.lastOnlineTimeSeconds * 1000).toLocaleString();
-            
-        } else {
-            throw new Error('Failed to fetch data from CodeForces API');
+                
+                const recentContestsContainer = document.querySelector('h3.text-lg.font-semibold.mb-2 + div.text-sm');
+                recentContestsContainer.innerHTML = '';
+                contests.slice(-3).reverse().forEach(contest => {
+                    recentContestsContainer.innerHTML += `<p>Contest ${contest.contestId}: Rank ${contest.rank} (Rating Change: ${contest.newRating - contest.oldRating})</p>`;
+                });
+                
+                document.getElementById('cfFriends').textContent = user.friendOfCount;
+                document.getElementById('cfLastOnline').textContent = new Date(user.lastOnlineTimeSeconds * 1000).toLocaleString();
+                
+            } else {
+                document.querySelector('#cfChart + div p.text-2xl').textContent = 'error';
+                cf = 0;
+                throw new Error('Failed to fetch data from CodeForces API');
         }
     } catch (error) {
         console.error('Error fetching CodeForces data:', error);
@@ -340,6 +344,8 @@ async function fetchLeetCodeData(username) {
             
             console.log("LeetCode data fetched successfully");
         } else {
+            lc = 0;
+            document.getElementById('lcSolved').textContent = 'Error';
             throw new Error('Data retrieval unsuccessful');
         }
     } catch (error) {
@@ -356,21 +362,29 @@ async function fetchLeetCodeData(username) {
 
 async function fetchgfgData(handle){
     let url = 'https://geeks-for-geeks-stats-api.vercel.app/?raw=y&userName=' + handle;
+    
     let response = await fetch(url);
     let data = await response.json();
-    let easycont = document.getElementById('gfgE');
-    let medcont = document.getElementById('gfgM');
-    let hardcont = document.getElementById('gfgH');
-    let total = document.getElementById('gfgT');
-    easycont.textContent = data.Easy;
-    medcont.textContent = data.Medium;
-    hardcont.textContent = data.Hard;
-    total.textContent = data.Easy + data.Medium + data.Hard;
-    gfg = data.Easy + data.Medium + data.Hard;
-    rendergfgChart(data.Easy,data.Medium,data.Hard);
-    
-    
-}
+    if(data.error){
+        
+        let total = document.getElementById('gfgT');
+        console.log('Error fetching data');
+        total.textContent = 'Error';
+        gfg = 0;
+    }
+    else{
+        let easycont = document.getElementById('gfgE');
+        let medcont = document.getElementById('gfgM');
+        let hardcont = document.getElementById('gfgH');
+        let total = document.getElementById('gfgT');
+        easycont.textContent = data.Easy;
+        medcont.textContent = data.Medium;
+        hardcont.textContent = data.Hard;
+        total.textContent = data.Easy + data.Medium + data.Hard;
+        gfg = data.Easy + data.Medium + data.Hard;
+        rendergfgChart(data.Easy,data.Medium,data.Hard);   
+    }
+    }
 });
 
 function returnHome(){
@@ -379,4 +393,7 @@ function returnHome(){
     document.getElementById('CodeForces').style.display = 'none';
     document.getElementById('LeetCode').style.display = 'none';
     document.getElementById('geeksforgeeks').style.display = 'none';
+    lc = 0;
+    gfg = 0;
+    cf = 0;
 }

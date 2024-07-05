@@ -197,7 +197,7 @@ function rendergfgChart(easy, med, hard) {
         type: 'doughnut',
         data: {
         datasets: [{
-            data: [70, 122, 22],
+            data: [easy, med, hard],
             backgroundColor: [
                 'rgb(34, 211, 238)',  // cyan-400
                 'rgb(251, 146, 60)', // orange-400
